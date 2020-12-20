@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: behzad
+  password: p@ssw0rd
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: ufas_panel_development
+
+test:
+  <<: *default
+  database: ufas_panel_test
+
+production:
+  <<: *default
+  database: ufas_panel_production
+  username: ufas_panel
+  password: <%= ENV['UFAS_PANEL_DATABASE_PASSWORD'] %>
