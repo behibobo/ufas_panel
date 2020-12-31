@@ -4,7 +4,7 @@ class AuthController < ApplicationController
 	def signup
 		@user = User.create(user_params)
 		if @user.valid?
-			token = encode_token({user_id: @user.id})
+			token = encode_token({user_id: @user.uuid})
 			render json: {user: @user, token: token}
 		else
 			render json: {error: @user.errors}
@@ -14,7 +14,7 @@ class AuthController < ApplicationController
   def signin
 		@user = User.find_by(email: params[:email])
 		if @user && @user.authenticate(params[:password])
-			token = encode_token({user_id: @user.id})
+			token = encode_token({user_id: @user.uuid})
 			render json: {token: token, user: @user}
 		else
 			render json: {error: "Invalid username or password"}
