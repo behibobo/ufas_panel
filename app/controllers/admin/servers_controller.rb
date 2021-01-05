@@ -1,4 +1,4 @@
-class Admin::ServersController < ApiController
+class Admin::ServersController < AdminController
   before_action :set_server, only: [:show, :update, :destroy]
 
   # GET /servers

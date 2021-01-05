@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  plan: one
+  user: one
+  valid_to: 2021-01-04
+
+two:
+  plan: two
+  user: two
+  valid_to: 2021-01-04

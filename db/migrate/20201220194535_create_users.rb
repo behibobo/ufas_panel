@@ -4,7 +4,8 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :email
       t.string :password_digest
       t.string :uuid
-
+      t.string :referral_code
+      t.references :referred_by, null: true, foreign_key: {to_table: :users}
       t.timestamps
     end
   end

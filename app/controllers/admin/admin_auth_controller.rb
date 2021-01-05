@@ -1,4 +1,4 @@
-class Admin::AdminAuthController < ApiController
+class Admin::AdminAuthController < AdminController
 	before_action :authorized, only: []
 	    
   def signin

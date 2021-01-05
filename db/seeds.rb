@@ -5,3 +5,12 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+Plan.create(name: "gift", days:7, price: 0)
+10.times do
+    Server.create!(
+        host: "grikvewhsona.ufasvpn.com",
+        premium: [true,false].sample,
+        country: Country.all.sample
+    )
+end

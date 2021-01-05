@@ -5,7 +5,7 @@ class CreateServers < ActiveRecord::Migration[6.0]
       t.string :api_key
       t.integer :server_type
       t.boolean :premium, default:false
-
+      t.references :country, null: false, foreign_key: true
       t.timestamps
     end
   end
