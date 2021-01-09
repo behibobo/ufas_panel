@@ -2,7 +2,7 @@ class ApplicationController < ActionController::API
   before_action :authorized
 
   def encode_token(payload)
-    JWT.encode(payload, 'P]nxR#g9#@~@.Z(DLhm-9_+#zWZq8y?3')
+    JWT.encode(payload.merge(exp: 2.years.from_now.to_i), 'P]nxR#g9#@~@.Z(DLhm-9_+#zWZq8y?3')
   end
 
   def auth_header

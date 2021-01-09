@@ -42,11 +42,15 @@ class Api::ApiController < ApplicationController
   end
 
   def servers
+		
 		regions = Country.select(:region).distinct
 		data = []
 		regions.each do |r|
 			servers = Server.joins(:country).where(countries: { region: r.region })
+			.where(premium: params[:premium])
 			
+			next unless servers.any?
+
 			if servers.any? 
 				data.push(
 					{
