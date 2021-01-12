@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :servers
     post "signin", to: "admin_auth#signin"
+    get "countries", to: "servers#countries"
   end
 
   namespace :api do

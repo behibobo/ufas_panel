@@ -4,7 +4,6 @@ class Admin::ServersController < AdminController
   # GET /servers
   def index
     @servers = Server.all
-
     render json: @servers
   end
 
@@ -18,7 +17,7 @@ class Admin::ServersController < AdminController
     @server = Server.new(server_params)
 
     if @server.save
-      render json: @server, status: :created, location: @server
+      render json: @server, status: :created
     else
       render json: @server.errors, status: :unprocessable_entity
     end
@@ -38,6 +37,11 @@ class Admin::ServersController < AdminController
     @server.destroy
   end
 
+  def countries
+    @countries = Country.order(:name)
+    render json: @countries
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_server
@@ -46,6 +50,6 @@ class Admin::ServersController < AdminController
 
     # Only allow a trusted parameter "white list" through.
     def server_params
-      params.require(:server).permit(:host, :api_key, :server_type, :premium)
+      params.require(:server).permit(:host, :api_key, :country_id, :server_type, :premium)
     end
 end
