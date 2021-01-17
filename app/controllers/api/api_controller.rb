@@ -42,7 +42,6 @@ class Api::ApiController < ApplicationController
   end
 
   def servers
-		
 		regions = Country.select(:region).distinct
 		data = []
 		regions.each do |r|
@@ -61,5 +60,10 @@ class Api::ApiController < ApplicationController
 		end
 
 		render json: data.to_json
+	end
+
+	def plans
+		plans = Plan.where('days > ?', 7)
+		render json: plans
 	end
 end

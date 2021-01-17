@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :plans
   namespace :admin do
     resources :servers
+    resources :users, only: [:index, :show]
     post "signin", to: "admin_auth#signin"
     get "countries", to: "servers#countries"
   end
@@ -11,6 +12,7 @@ Rails.application.routes.draw do
     get "create_country", to: "api#create_country"
     get "referrer/:code", to: "api#referrer"
     get "servers", to: "api#servers"
+    get "plans", to: "api#plans"
     post "email_exists", to: "api#email_exists"
   end
 
