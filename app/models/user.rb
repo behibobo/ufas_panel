@@ -2,7 +2,11 @@ class User < ApplicationRecord
 	has_secure_password
 	before_create :generate_uuid
 	before_create :generate_referral_code
+	
+	
 	has_many :accounts
+	has_many :user_servers
+	has_many :servers, through: :user_servers
 	belongs_to :referred_by, foreign_key: "referred_by_id", class_name: "User", optional: true
 
 	validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }

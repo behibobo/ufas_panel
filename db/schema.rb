@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_04_094809) do
+ActiveRecord::Schema.define(version: 2021_03_19_163503) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,15 @@ ActiveRecord::Schema.define(version: 2021_01_04_094809) do
     t.index ["country_id"], name: "index_servers_on_country_id"
   end
 
+  create_table "user_servers", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "server_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["server_id"], name: "index_user_servers_on_server_id"
+    t.index ["user_id"], name: "index_user_servers_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
@@ -75,5 +84,7 @@ ActiveRecord::Schema.define(version: 2021_01_04_094809) do
   add_foreign_key "accounts", "plans"
   add_foreign_key "accounts", "users"
   add_foreign_key "servers", "countries"
+  add_foreign_key "user_servers", "servers"
+  add_foreign_key "user_servers", "users"
   add_foreign_key "users", "users", column: "referred_by_id"
 end
