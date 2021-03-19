@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   end
 
   post "signin", to: "auth#signin"
+  post "activate", to: "auth#activate"
   post "uuid_signin", to: "auth#uuid_signin"
   post "signup", to: "auth#signup"
 end

@@ -2,25 +2,45 @@ class AuthController < ApplicationController
 	before_action :authorized, only: []
 	
 	def signup
-		@user = User.create(user_params)
+		@user = User.new(user_params)
 		if(params[:auth][:referral_code])
 			referred = User.find_by(referral_code: params[:auth][:referral_code])
 			@user.referred_by_id = referred.id unless referred.nil?
-			@user.save
 		end
 		
+		#for now it is 555555
+		@user.activation_code = "555555"
+		#email the activation code
+
 		if @user.valid?
+			@user.save
 			plan = Plan.where(days: 7).first
 			account = Account.create(plan: plan, user: @user, valid_to: Date.today + plan.days)			
 			token = encode_token({user_id: @user.uuid})
 			render json: {user: @user, token: token}
 		else
-			render json: {error: @user.errors}
+			render json: {error: @user.errors}, status: :unprocessable_entity
 		end
+	end
+
+	def activate
+		@user = User.find_by(email: params[:email])
+		if @user.activation_code == params[:activation_code]
+			@user.active = true
+			render json: {user: @user}
+		else
+			render json: {error: "activation code is wrong try again"}, status: :unprocessable_entity
+		end
+		
 	end
     
   def signin
 		@user = User.find_by(email: params[:email])
+		if @user.active == false
+			render json: {error: "account has not been activated"}, status: :unauthorized
+			return 
+		end
+
 		if @user && @user.authenticate(params[:password])
 			token = encode_token({user_id: @user.uuid})
 			render json: {token: token, user: @user}
@@ -42,6 +62,6 @@ end
 	private
 
   def user_params
-    params.permit(:email, :password)
+    params.permit(:email, :password, :referral_code)
   end
 end

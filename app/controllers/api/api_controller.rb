@@ -70,7 +70,7 @@ class Api::ApiController < ApplicationController
 				favorites.push(s) unless favorites.map(&:id).include? idd
 			end
 		end
-		render json: { servers: data, recent_servers: recent_servers, favorites: favorites }, status: :ok
+		render json: { servers: data, recent_servers: ActiveModel::SerializableResource.new(recent_servers), favorites: ActiveModel::SerializableResource.new(favorites) }, status: :ok
 	end
 
 
