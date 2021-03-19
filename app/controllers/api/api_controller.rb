@@ -56,18 +56,20 @@ class Api::ApiController < ApplicationController
 					servers: ActiveModel::SerializableResource.new(servers)
 				})
 		end
+		recent_servers = []
+		recent_servers = User.find(params[:user_id]).servers.order(created_at: :desc).first(10) if params[:user_id]
 
-		recent_servers = current_user.servers.order(created_at: :desc).first(10)
-
-		favorite_ids = current_user.user_servers.joins(:server).group('user_servers.id').order('Count(user_servers.server_id) DESC').pluck(:server_id)
-		ids = favorite_ids.sort_by { |i| favorite_ids.count(i) }.reverse.uniq
 		favorites = []
+		if params[:user_id]
+			favorite_ids = User.find(params[:user_id]).user_servers.joins(:server).group('user_servers.id').order('Count(user_servers.server_id) DESC').pluck(:server_id)
+			ids = favorite_ids.sort_by { |i| favorite_ids.count(i) }.reverse.uniq
+		
 
-		ids.each do |idd|
-			s = Server.find(idd)
-			favorites.push(s) unless favorites.map(&:id).include? idd
+			ids.each do |idd|
+				s = Server.find(idd)
+				favorites.push(s) unless favorites.map(&:id).include? idd
+			end
 		end
-
 		render json: { servers: data, recent_servers: recent_servers, favorites: favorites }, status: :ok
 	end
 
