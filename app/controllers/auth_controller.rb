@@ -28,7 +28,8 @@ class AuthController < ApplicationController
 		if @user.activation_code == params[:activation_code]
 			@user.active = true
 			@user.save
-			render json: {user: @user}
+			token = encode_token({user_id: @user.uuid})
+			render json: {user: @user, token: token}
 		else
 			render json: {error: "activation code is wrong try again"}, status: :unprocessable_entity
 		end
