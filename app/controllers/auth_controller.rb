@@ -27,6 +27,7 @@ class AuthController < ApplicationController
 		@user = User.find_by(email: params[:email])
 		if @user.activation_code == params[:activation_code]
 			@user.active = true
+			@user.save
 			render json: {user: @user}
 		else
 			render json: {error: "activation code is wrong try again"}, status: :unprocessable_entity
@@ -36,11 +37,7 @@ class AuthController < ApplicationController
     
   def signin
 		@user = User.find_by(email: params[:email])
-		if @user.active == false
-			render json: {error: "account has not been activated"}, status: :unauthorized
-			return 
-		end
-
+		
 		if @user && @user.authenticate(params[:password])
 			token = encode_token({user_id: @user.uuid})
 			render json: {token: token, user: @user}
