@@ -3,9 +3,11 @@ class User < ApplicationRecord
 	before_create :generate_uuid
 	before_create :generate_referral_code
 	
-	
-	has_many :accounts
-	has_many :user_servers
+	enum user_type: ["registered", "demo"]
+
+	has_many :accounts, dependent: :destroy
+	has_many :user_connections, dependent: :destroy
+	has_many :user_servers, dependent: :destroy
 	has_many :servers, through: :user_servers
 	belongs_to :referred_by, foreign_key: "referred_by_id", class_name: "User", optional: true
 

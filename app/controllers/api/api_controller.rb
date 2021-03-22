@@ -1,5 +1,4 @@
 class Api::ApiController < ApplicationController
-	skip_before_action :authorized, only: [:referrer,:email_exists, :servers]
 	
 	def account
 			render json: current_user.current_account
@@ -43,25 +42,51 @@ class Api::ApiController < ApplicationController
 
   def servers
 		regions = Country.select(:region).distinct
+
+		premium = true
+
+		premium = false if current_user.user_type == "demo"
+		premium = false if current_user.current_account.is_valid?
+
 		data = []
 		regions.each do |r|
-			servers = Server.joins(:country).where(countries: { region: r.region })
-			.where(premium: params[:premium])
+			servers = Server.joins(:country).where(countries: { region: r.region }).where(premium: premium)
 
 			next unless servers.any?
+
+			vpn_servers = []
+
+			servers.each do |server|
+				server_data = {
+					name: server.country.name,
+					country: server.country.name,
+					regiom: server.country.region,
+					flag: server.flag_url,
+					premium: server.premium,
+				}
+
+				connection = UserConnection.where(user: current_user, server: server).first
+				server_data[:username] = connection.username
+				server_data[:password] = connection.password
+				
+
+				vpn_servers.push(server_data)
+			end
 
 			data.push(
 				{
 					region: r.region,
-					servers: ActiveModel::SerializableResource.new(servers)
+					servers: vpn_servers
 				})
 		end
+
+
 		recent_servers = []
-		recent_servers = User.find(params[:user_id]).servers.order(created_at: :desc).first(10) if params[:user_id]
+		recent_servers = current_user.servers.order(created_at: :desc).first(10) if params[:user_id]
 
 		favorites = []
 		if params[:user_id]
-			favorite_ids = User.find(params[:user_id]).user_servers.joins(:server).group('user_servers.id').order('Count(user_servers.server_id) DESC').pluck(:server_id)
+			favorite_ids = current_user.user_servers.joins(:server).group('user_servers.id').order('Count(user_servers.server_id) DESC').pluck(:server_id)
 			ids = favorite_ids.sort_by { |i| favorite_ids.count(i) }.reverse.uniq
 		
 
@@ -82,5 +107,29 @@ class Api::ApiController < ApplicationController
 	def plans
 		plans = Plan.where('days > ?', 7)
 		render json: plans
+	end
+
+	def auto_server
+
+		premium = true
+
+		premium = false if current_user.user_type == "demo"
+		premium = false if current_user.current_account.is_valid?
+
+		server = Server.flash_server(premium)
+
+		server_data = {
+			name: server.country.name,
+			country: server.country.name,
+			regiom: server.country.region,
+			flag: server.flag_url,
+			premium: server.premium,
+		}
+
+		connection = UserConnection.where(user: current_user, server: server).first
+		server_data[:username] = connection.username
+		server_data[:password] = connection.password
+
+		render json: { server: server_data }, status: :ok
 	end
 end
