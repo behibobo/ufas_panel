@@ -99,7 +99,7 @@ class Api::ApiController < ApplicationController
 	end
 
 
-	def user_servers
+	def user_server
 		UserServer.create(user: current_user, server: params[:server_id])
 		render json: { result: true }, status: :ok
 	end
