@@ -58,6 +58,7 @@ class Api::ApiController < ApplicationController
 
 			servers.each do |server|
 				server_data = {
+					id: server.id,
 					name: server.country.name,
 					country: server.country.name,
 					regiom: server.country.region,
@@ -119,6 +120,7 @@ class Api::ApiController < ApplicationController
 		server = Server.flash_server(premium)
 
 		server_data = {
+			id: server.id,
 			name: server.country.name,
 			country: server.country.name,
 			regiom: server.country.region,
