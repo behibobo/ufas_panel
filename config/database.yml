@@ -23,7 +23,7 @@ default: &default
 
 development:
   <<: *default
-  host: 127.0.0.1
+  host: 194.5.195.63
   database: ufas_panel_development
 
 test:
