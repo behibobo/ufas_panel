@@ -22,5 +22,8 @@ Rails.application.routes.draw do
   post "activate", to: "auth#activate"
   post "uuid_signin", to: "auth#uuid_signin"
   post "signup", to: "auth#signup"
+  post "forget_password", to: "auth#forget_password"
+  post "validate_code", to: "auth#validate_code"
+  post "change_password", to: "auth#change_password"
   
 end

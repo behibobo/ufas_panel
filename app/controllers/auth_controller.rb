@@ -59,6 +59,32 @@ class AuthController < ApplicationController
 			render json: {error: "Invalid username or password"}, status: :unauthorized
 		end
 	end
+
+
+	def forget_password
+		@user = User.find_by!(email: params[:email])
+		@user.activation_code = "555555"
+
+		#email the new activation code
+		@user.save
+		render json: {result: true}
+	end
+
+	def validate_code
+		@user = User.find_by!(email: params[:email])
+		if @user.activation_code = params[:activation_code]
+			render json: {result: true}
+		else
+			render json: {result: false}, status: :unauthorized
+		end
+	end
+
+	def change_password
+		@user = User.find_by!(email: params[:email])
+		@user.password = params[:password]
+		@user.save!
+		render json: {result: true}
+	end
 	
 	private
 
