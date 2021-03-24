@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
   resources :plans
   namespace :admin do
-    resources :servers
-    resources :users, only: [:index, :show]
+    resources :servers, except: [:index]
+    post 'server/get_all', to: "servers#index"
+    get 'countries', to: "api#countries"
+    resources :plans
+    post 'users/get_all', to: "users#index"
+    get 'users/:id', to: "users#show"
     post "signin", to: "admin_auth#signin"
     get "countries", to: "servers#countries"
   end

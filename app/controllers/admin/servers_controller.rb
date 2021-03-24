@@ -3,8 +3,11 @@ class Admin::ServersController < AdminController
 
   # GET /servers
   def index
-    @servers = Server.all
-    render json: @servers
+    servers = Server.all
+    servers = servers.where(server_type: params[:server]) if params[:server_type]
+    servers = servers.where(country_id: params[:country_id]) if params[:country_id]
+    servers = servers.where(premium: params[:premium]) if params[:premium]
+    render json: servers
   end
 
   # GET /servers/1

@@ -11,7 +11,9 @@ gem 'active_model_serializers', '~> 0.10.0'
 gem 'bcrypt'
 gem 'rack-cors'
 gem "figaro"
+gem 'kaminari'
 gem "thin"
+gem "faker"
 
 
 
