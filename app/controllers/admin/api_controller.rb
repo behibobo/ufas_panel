@@ -24,8 +24,9 @@ class Admin::ApiController < AdminController
   end 
 
   def accounts
-    accounts = Account.joins(:plan).group('plans.name').group_by_month(:created_at).count
-    dates = accounts.map {|acc| acc.first.last.to_s }
+    accounts = Account.joins(:plan).group('plans.name')
+      .group_by_month(:created_at).count
+    dates = accounts.map {|acc| acc.first.last.to_s }.uniq
 
     data_numbers = accounts.map {|acc| [acc.first.first, acc.last]}
 
