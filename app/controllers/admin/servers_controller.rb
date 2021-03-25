@@ -3,8 +3,8 @@ class Admin::ServersController < AdminController
 
   # GET /servers
   def index
-    servers = Server.all
-    servers = servers.where(server_type: params[:server]) if params[:server_type]
+    servers = Server.order(created_at: :desc)
+    servers = servers.where(server_type: params[:server_type]) if params[:server_type]
     servers = servers.where(country_id: params[:country_id]) if params[:country_id]
     servers = servers.where(premium: params[:premium]) if params[:premium]
     render json: servers
@@ -53,6 +53,6 @@ class Admin::ServersController < AdminController
 
     # Only allow a trusted parameter "white list" through.
     def server_params
-      params.require(:server).permit(:host, :api_key, :country_id, :server_type, :premium)
+      params.require(:server).permit(:host, :api_key, :port, :ip, :country_id, :server_type, :premium)
     end
 end

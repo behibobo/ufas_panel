@@ -6,6 +6,8 @@ class User < ApplicationRecord
 	enum user_type: ["registered", "demo"]
 
 	has_many :accounts, dependent: :destroy
+	has_many :devices, dependent: :destroy
+	
 	has_many :user_connections, dependent: :destroy
 	has_many :user_servers, dependent: :destroy
 	has_many :servers, through: :user_servers

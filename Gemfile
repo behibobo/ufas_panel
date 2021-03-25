@@ -14,6 +14,8 @@ gem "figaro"
 gem 'kaminari'
 gem "thin"
 gem "faker"
+gem 'groupdate'
+
 
 
 

@@ -2,14 +2,17 @@ class Admin::UsersController < AdminController
 	before_action :authorized, only: []
 	    
   def index 
-    total_record = User.where(user_type: "registered").count()
-    users = User.where(user_type: "registered").order(created_at: :desc).page(params[:page]).per(params[:page_size])
+    users = User.order(created_at: :desc)
+    users = users.where(user_type: "registered")
+    users = users.where('email like ?', "%#{params[:keyword]}%") if params[:keyword]
 
+    total_record = users.count
+
+    users = users.page(params[:page]).per(params[:page_size])
+    total = 1
     if(total_record > 0)
-      total_page = (total_record / params[:page_size].to_i).floor 
-      total = 1 unless total_page > 0
-    else
-      total_record= 1
+      total_page = (total_record.to_f / params[:page_size].to_i).ceil 
+      total = total_page if total_page > 0
     end
     
     render json: { result: ActiveModel::SerializableResource.new(users), total_record: total_record, total_page: total}

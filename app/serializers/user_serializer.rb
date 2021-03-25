@@ -1,6 +1,8 @@
 class UserSerializer < ActiveModel::Serializer
   attributes :id, :email, :account, :referred_by
 
+  has_many :devices
+  
   def account
     ActiveModelSerializers::SerializableResource.new(object.current_account)
   end

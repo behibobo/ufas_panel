@@ -2,6 +2,7 @@ class Server < ApplicationRecord
 	belongs_to :country
 	enum server_type: [:ikev, :ovpn]
 
+	has_many :user_servers, dependent: :destroy
 
 	def self.connections(user)
 		Server.all.each do |server|

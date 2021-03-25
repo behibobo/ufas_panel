@@ -1,5 +1,13 @@
 class AccountSerializer < ActiveModel::Serializer
-  attributes :id, :started_date, :expire_date, :days_left, :plan, :active
+  attributes :id, :started_date, :expire_date, :days_left, :active, :plan_name, :user_email
+
+  def plan_name
+    object.plan.name
+  end
+
+  def user_email
+    object.user.email
+  end
 
   def started_date
     object.created_at.to_date.to_s

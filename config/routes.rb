@@ -3,12 +3,15 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :servers, except: [:index]
     post 'server/get_all', to: "servers#index"
+    post 'account/get_all', to: "accounts#index"
     get 'countries', to: "api#countries"
     resources :plans
     post 'users/get_all', to: "users#index"
     get 'users/:id', to: "users#show"
     post "signin", to: "admin_auth#signin"
     get "countries", to: "servers#countries"
+    get 'dashboard/plans', to: 'api#plans_purchased'
+    get 'dashboard/accounts', to: 'api#accounts'
   end
 
   namespace :api do
