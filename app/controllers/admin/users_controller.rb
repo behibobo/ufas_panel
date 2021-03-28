@@ -21,7 +21,9 @@ class Admin::UsersController < AdminController
   def show
     user = User.find(params[:id])
     accounts = Account.where(user: user).order(created_at: :desc).limit(10)
-    user_servers = UserServer.where(user_id: params[:id]).order(created_at: :desc).limit(10)
+    user_servers_ids = UserServer.where(user_id: params[:id]).order(created_at: :desc).limit(10).pluck('server_id')
+    
+    user_servers = Server.where(id: user_servers_ids)
     render json: { 
       user: ActiveModel::SerializableResource.new(user), 
       accounts: ActiveModel::SerializableResource.new(accounts),

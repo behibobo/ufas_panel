@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_25_121224) do
+ActiveRecord::Schema.define(version: 2021_03_27_135614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_121224) do
     t.string "code", limit: 20
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "lng"
+    t.string "lat"
   end
 
   create_table "devices", force: :cascade do |t|
@@ -97,6 +99,8 @@ ActiveRecord::Schema.define(version: 2021_03_25_121224) do
     t.string "password_digest"
     t.string "uuid"
     t.string "referral_code"
+    t.boolean "online"
+    t.date "last_online"
     t.bigint "referred_by_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

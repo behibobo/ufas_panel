@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :plans
   namespace :admin do
     resources :servers, except: [:index]
+    resources :plans
     post 'server/get_all', to: "servers#index"
     post 'account/get_all', to: "accounts#index"
     get 'countries', to: "api#countries"
@@ -12,6 +13,8 @@ Rails.application.routes.draw do
     get "countries", to: "servers#countries"
     get 'dashboard/plans', to: 'api#plans_purchased'
     get 'dashboard/accounts', to: 'api#accounts'
+    get 'dashboard/recent_accounts', to: 'api#recent_accounts'
+    get 'dashboard/user_servers', to: 'api#user_servers'
   end
 
   namespace :api do
@@ -32,5 +35,14 @@ Rails.application.routes.draw do
   post "forget_password", to: "auth#forget_password"
   post "validate_code", to: "auth#validate_code"
   post "change_password", to: "auth#change_password"
+  post "validate_referral", to: "auth#validate_referral"
+
+
+  namespace :front do
+    post 'signup', to: "auth#signup"
+    post 'signin', to: "auth#signin"
+    post 'activate', to: "auth#activate"
+    get 'profile', to: "accounts#index"
+  end
   
 end

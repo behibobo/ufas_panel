@@ -1,12 +1,10 @@
 class ServerSerializer < ActiveModel::Serializer
-  attributes :id, :name, :country, :region,:ip, :country_id, :flag, :host, :port, :api_key, :server_type, :premium, :popularity
+  attributes :id, :name, :region,:ip, :country_id, :flag, :host, :port, :api_key, :server_type, :premium, :popularity
 
+  belongs_to :country
+  
   def region
     object.country.region
-  end
-
-  def country
-    object.country.name
   end
 
   def flag

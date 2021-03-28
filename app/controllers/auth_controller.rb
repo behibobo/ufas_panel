@@ -79,6 +79,18 @@ class AuthController < ApplicationController
 		end
 	end
 
+
+
+	def validate_referral
+		user = User.find_by(referral_code: params[:referral_code])
+		if user.nil?
+			render json: {result: false}
+		else
+			render json: {result: true, email: user.email }
+		end
+	end
+
+
 	def change_password
 		@user = User.find_by!(email: params[:email])
 		@user.password = params[:password]
