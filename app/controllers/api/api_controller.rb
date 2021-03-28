@@ -46,7 +46,10 @@ class Api::ApiController < ApplicationController
 		premium = true
 
 		premium = false if current_user.user_type == "demo"
-		premium = false if current_user.current_account.is_valid?
+
+		if current_user.user_type != "demo" && current_user.current_account.is_valid?
+			premium = false
+		end
 
 		data = []
 		regions.each do |r|
