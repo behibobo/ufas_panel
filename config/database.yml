@@ -19,11 +19,11 @@ default: &default
   encoding: unicode
   username: behzad
   password: p@ssw0rd
+  host: 194.5.195.63
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
-  host: 127.0.0.1
   database: ufas_panel_development
 
 test:
