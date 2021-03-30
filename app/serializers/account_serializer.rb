@@ -1,5 +1,6 @@
 class AccountSerializer < ActiveModel::Serializer
   attributes :id, :started_date, :expire_date, :days_left, :active, :plan_name, :user_email
+  belongs_to :plan
 
   def plan_name
     object.plan.name

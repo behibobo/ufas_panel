@@ -17,10 +17,12 @@ class Front::AuthController < ApplicationController
 				referred = User.find_by(referral_code: user_params[:referral_code])
 				user.referred_by_id = referred.id unless referred.nil?
 			end	
-
+	
 
 			user.save!
-			render json: { email: user.email, active: user.active, token: token}.to_json
+			plan = Plan.where(days: 7).first
+                        account = Account.create(plan: plan, user: user, valid_to: Date.today + plan.days)
+			render json: { email: user.email, active: user.active}.to_json
 
 		end
 	end

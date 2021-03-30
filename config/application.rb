@@ -36,5 +36,6 @@ module UfasPanel
     config.force_ssl = false
 
     config.hosts << "ufas.coding-lodge.com"
+    config.hosts << "ufasadmin.coding-lodge.com"
   end
 end
