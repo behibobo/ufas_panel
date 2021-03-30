@@ -15,6 +15,7 @@ class AuthController < ApplicationController
 
 			if @user.valid?
 				@user.save!
+				ActivationMailer.sample_email(@user).deliver_later
 				Server.connections(@user)
 				plan = Plan.where(days: 7).first
 				account = Account.create(plan: plan, user: @user, valid_to: Date.today + plan.days)			

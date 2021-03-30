@@ -15,6 +15,7 @@ gem 'kaminari'
 gem "thin"
 gem "faker"
 gem 'groupdate'
+gem 'delayed_job_active_record'
 
 
 

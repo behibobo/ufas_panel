@@ -20,6 +20,7 @@ class Front::AuthController < ApplicationController
 	
 
 			user.save!
+			ActivationMailer.sample_email(user).deliver_later
 			plan = Plan.where(days: 7).first
                         account = Account.create(plan: plan, user: user, valid_to: Date.today + plan.days)
 			render json: { email: user.email, active: user.active}.to_json
