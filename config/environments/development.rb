@@ -45,8 +45,8 @@ Rails.application.configure do
   config.active_job.queue_adapter = :delayed_job
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:  'noreply@ufasvpn.com',
-    port:  '993',
+    address:  'mail.ufasvpn.com',
+    port:  587,
     domain: 'ufasvpn.com',
     user_name: 'noreply@ufasvpn.com',
     password: 'iYSCU=w*-dMZ',

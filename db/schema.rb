@@ -114,6 +114,8 @@ ActiveRecord::Schema.define(version: 2021_03_30_200108) do
     t.string "password_digest"
     t.string "uuid"
     t.string "referral_code"
+    t.boolean "online"
+    t.date "last_online"
     t.bigint "referred_by_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
