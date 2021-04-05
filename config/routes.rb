@@ -12,9 +12,10 @@ Rails.application.routes.draw do
     post "signin", to: "admin_auth#signin"
     get "countries", to: "servers#countries"
     get 'dashboard/plans', to: 'api#plans_purchased'
-    get 'dashboard/accounts', to: 'api#accounts'
+    post 'dashboard/accounts', to: 'api#accounts'
     get 'dashboard/recent_accounts', to: 'api#recent_accounts'
     get 'dashboard/user_servers', to: 'api#user_servers'
+    get 'dashboard/dates', to: 'api#dates'
   end
 
   namespace :api do

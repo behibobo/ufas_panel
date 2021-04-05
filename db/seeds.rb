@@ -31,17 +31,23 @@ end
 end
 
 30.times do 
-    user = User.create(email: Faker::Internet.email, password: "password", user_type: "registered", activation_code: "555555")
+    ddate = Date.today - (1..400).to_a.sample.days
+    user = User.create(email: Faker::Internet.email, password: "password",
+         user_type: "registered", activation_code: "555555", created_at: ddate)
 
-    6.times do
-        date = Date.today - (8..40).to_a.sample.months
-        plan = Plan.all.sample
-        account = Account.create!(
+    (2..15).to_a.sample.times do
+        
+        date = Date.today - (1..400).to_a.sample.days
+        4.times do
+          plan = Plan.all.sample
+          account = Account.create!(
             plan: plan,
             user: user,
             created_at: date,
             valid_to: date + plan.days.days
-        )
+          )  
+        end
+        
     end
 
 
